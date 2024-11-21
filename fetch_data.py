@@ -1,19 +1,24 @@
-import requests
 import json
+import random
 from datetime import datetime
 
-# Example API endpoint (you can replace it with any other JSON API)
-API_URL = "https://api.coindesk.com/v1/bpi/currentprice.json"
+# Simulate fetching data (e.g., Bitcoin price as a random number)
+def fetch_mock_data():
+    return {
+        "bitcoin_price": round(random.uniform(20000, 60000), 2),  # Random Bitcoin price between 20k and 60k
+        "currency": "USD"
+    }
 
 def fetch_and_save_data():
     try:
-        response = requests.get(API_URL)
-        data = response.json()
+        # Fetch mock data
+        data = fetch_mock_data()
+
+        # Add a timestamp to the data
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        data['timestamp'] = timestamp
 
         # Save data to a JSON file
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        data['timestamp'] = timestamp  # Add timestamp
-
         with open("data.json", "w") as json_file:
             json.dump(data, json_file, indent=4)
         print(f"Data updated at {timestamp}")
